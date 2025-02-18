@@ -1,0 +1,41 @@
+[project]
+name = "fastapi-starter"
+dynamic = ["version"]
+description = "Starter template for FastAPI projects"
+readme = "README.md"
+authors = [{ name = "Alexandre Marty", email = "alexandre@altitudedata.fr" }]
+requires-python = ">=3.12"
+dependencies = [
+    "alembic>=1.14.1",
+    "alembic-utils>=0.8.6",
+    "fastapi>=0.115.8",
+    "httpx>=0.28.1",
+    "psycopg[binary,pool]>=3.2.4",
+    "pydantic>=2.10.6",
+    "pydantic-extra-types>=2.10.2",
+    "pydantic-settings>=2.7.1",
+    "python-dotenv>=1.0.1",
+    "rich>=13.9.4",
+    "sqlalchemy>=2.0.38",
+    "structlog>=25.1.0",
+    "typer>=0.15.1",
+    "uvicorn[standard]>=0.34.0",
+]
+
+[tool.hatch.version]
+path = "src/fastapi_starter/__about__.py"
+
+[project.scripts]
+fastapi-starter = "fastapi_starter.__main__:app"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = ["pytest>=8.3.4", "pytest-mock>=3.14.0", "ruff>=0.9.6"]
+
+
+[tool.ruff.lint.isort]
+known-first-party = ["fastapi_starter"]
+lines-after-imports = 2
