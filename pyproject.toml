@@ -34,8 +34,3 @@ build-backend = "hatchling.build"
 
 [dependency-groups]
 dev = ["pytest>=8.3.4", "pytest-mock>=3.14.0", "ruff>=0.9.6"]
-
-
-[tool.ruff.lint.isort]
-known-first-party = ["fastapi_starter"]
-lines-after-imports = 2

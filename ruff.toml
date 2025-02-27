@@ -1,0 +1,65 @@
+target-version = "py312"
+line-length = 90
+
+[lint]
+select = [
+    "A",
+    "ARG",
+    "B",
+    "C",
+    "DTZ",
+    "E",
+    "EM",
+    "F",
+    "FBT",
+    "I",
+    "ICN",
+    "ISC",
+    "N",
+    "PLC",
+    "PLE",
+    "PLR",
+    "PLW",
+    "Q",
+    "RUF",
+    "S",
+    "T",
+    "TID",
+    "UP",
+    "W",
+    "YTT",
+]
+ignore = [
+    # Allow non-abstract empty methods in abstract base classes
+    "B027",
+    # Allow boolean positional values in function calls, like `dict.get(... True)`
+    "FBT003",
+    # Ignore checks for possible passwords
+    "S105",
+    "S106",
+    "S107",
+    # Ignore complexity
+    "C901",
+    "PLR0911",
+    "PLR0912",
+    "PLR0913",
+    "PLR0915",
+    # Avoid conflicting with the formatter
+    "ISC001", # single-line-implicit-string-concatenation
+]
+unfixable = [
+    # Don't touch unused imports
+    "F401",
+]
+
+[lint.isort]
+known-first-party = ["fastapi_starter"]
+lines-after-imports = 2
+
+[lint.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[lint.per-file-ignores]
+"*.ipynb" = ["T20"] # Print statements in notebooks
+# Tests can use magic values and assertions
+"**/**/tests/**/*" = ["PLR2004", "S101"]

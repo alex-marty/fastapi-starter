@@ -2,8 +2,13 @@ from fastapi import APIRouter, FastAPI
 from pydantic import BaseModel
 
 from fastapi_starter.__about__ import __version__
+from fastapi_starter.api.routes import main_router
 from fastapi_starter.config import AppConfig, get_config
-from fastapi_starter.routes import main_router
+from fastapi_starter.utils import (
+    git_revision_hash,
+    git_root_path,
+    git_working_directory_is_clean,
+)
 
 
 # Base technical routers: root and debug
@@ -14,11 +19,19 @@ root_router = APIRouter()
 class HealthResponse(BaseModel):
     message: str
     app_version: str
+    git_hash: str | None
+    git_dirty: bool | None
 
 
 @root_router.get("/health")
 def get_health() -> HealthResponse:
-    return HealthResponse(message="OK", app_version=__version__)
+    in_git_repo = git_root_path(allow_none=True) is not None
+    return HealthResponse(
+        message="OK",
+        app_version=__version__,
+        git_hash=git_revision_hash() if in_git_repo else None,
+        git_dirty=not git_working_directory_is_clean() if in_git_repo else None,
+    )
 
 
 debug_router = APIRouter()
@@ -35,7 +48,7 @@ def trigger_server_error() -> None:
 
 def make_app(config: AppConfig | None = None) -> FastAPI:
     if config is None:
-        config = AppConfig()
+        config = get_config()
 
     app = FastAPI(
         title="FastAPI Starter",
